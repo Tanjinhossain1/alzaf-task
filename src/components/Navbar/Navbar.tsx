@@ -6,21 +6,19 @@ import {
   User,
   Phone,
   HelpCircle,
-  ChevronRight,
-  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryType } from "@/types/category";
 import DarkModeToggleButton from "./DarkModeToggleButton";
 import MobileMenu from "./MobileDrawer";
-import axios from "axios";
 import CommonMainNavigation from "./CommonMainNavigation";
+import CategoriesLists from "./CategoryList";
+import axios from "axios";
 
 export default async function Navbar() {
-  const response = await axios.get(
-    "https://api.shope.com.bd/api/v1/public/hero-categories"
-  );
-  const categories: CategoryType[] = response.data;
+  // Fetch the categories using apis  
+  const response  = await axios.get('https://api.shope.com.bd/api/v1/public/hero-categories');
+  const categories: CategoryType[] = response.data
 
   return (
     <div className="w-full bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
@@ -96,101 +94,13 @@ export default async function Navbar() {
           </div>
         </div>
       </div>
-
       {/* Categories Navigation */}
       <div className="border-b dark:border-gray-700 bg-white dark:bg-black">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row">
+          <div className="flex flex-col lg:flex-row ">
             {/* Category Sidebar */}
-            <div className="group relative w-full lg:w-64">
-              <div className="flex items-center justify-between bg-primary p-4 text-primary-foreground">
-                <span className="font-medium">Categories</span>
-                <ChevronDown className="h-4 w-4" />
-              </div>
-              {/* First Level Categories */}
-              <div className="absolute lg:left-0 lg:top-full z-50 w-full lg:w-64 bg-white dark:bg-gray-800 shadow-lg hidden group-hover:block">
-                {categories.map((category) => (
-                  <div
-                    key={category.id}
-                    className="group/item relative hover:bg-orange-100 dark:hover:bg-orange-800"
-                  >
-                    <div className="flex items-center justify-between dark:border-gray-700 px-4 py-1 hover:bg-orange-100 dark:hover:bg-orange-800">
-                      <Link
-                        href={category.link}
-                        className="group-hover/item:text-orange-500"
-                      >
-                        {category.title}
-                      </Link>
-                      {category.childrens && (
-                        <ChevronRight className="h-4 w-4 group-hover/item:text-orange-500" />
-                      )}
-                    </div>
-                    {/* Second Level Categories */}
-                    {category.childrens && (
-                      <div className="lg:absolute lg:left-full lg:top-0 z-50 w-full lg:w-64 bg-white dark:bg-gray-800 shadow-lg hidden group-hover/item:block">
-                        {category.childrens.map((child) => (
-                          <div
-                            key={child.id}
-                            className="group/child relative hover:bg-orange-100 dark:hover:bg-orange-800"
-                          >
-                            <div className="flex items-center justify-between dark:border-gray-700 px-4 py-1 hover:bg-orange-100 dark:hover:bg-orange-800">
-                              <Link
-                                href={child.link}
-                                className="group-hover/child:text-orange-500"
-                              >
-                                {child.title}
-                              </Link>
-                              {child.childrens && (
-                                <ChevronRight className="h-4 w-4 group-hover/child:text-orange-500" />
-                              )}
-                            </div>
-                            {/* Third Level Categories */}
-                            {child.childrens && (
-                              <div className="lg:absolute lg:left-full lg:top-0 z-50 w-full lg:w-64 bg-white dark:bg-gray-800 shadow-lg hidden group-hover/child:block">
-                                {child.childrens.map((grandChild) => (
-                                  <div
-                                    key={grandChild.id}
-                                    className="group/grandchild relative hover:bg-orange-100 dark:hover:bg-orange-800"
-                                  >
-                                    <div className="flex items-center justify-between dark:border-gray-700 px-4 py-1 hover:bg-orange-100 dark:hover:bg-orange-800">
-                                      <Link
-                                        href={grandChild.link}
-                                        className="group-hover/grandchild:text-orange-500"
-                                      >
-                                        {grandChild.title}
-                                      </Link>
-                                      {grandChild.childrens && (
-                                        <ChevronRight className="h-4 w-4 group-hover/grandchild:text-orange-500" />
-                                      )}
-                                    </div>
-                                    {/* Fourth Level Categories */}
-                                    {grandChild.childrens && (
-                                      <div className="lg:absolute lg:left-full lg:top-0 z-50 w-full lg:w-64 bg-white dark:bg-gray-800 shadow-lg hidden group-hover/grandchild:block">
-                                        {grandChild.childrens.map(
-                                          (greatGrandChild) => (
-                                            <Link
-                                              key={greatGrandChild.id}
-                                              href={greatGrandChild.link}
-                                              className="block border-b dark:border-gray-700 px-4 py-1 hover:bg-orange-100 dark:hover:bg-orange-800"
-                                            >
-                                              {greatGrandChild.title}
-                                            </Link>
-                                          )
-                                        )}
-                                      </div>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CategoriesLists categories={categories} />
+
             {/* Main Navigation of Features */}
             <nav className={`flex-1 hidden lg:block`}>
               <CommonMainNavigation />

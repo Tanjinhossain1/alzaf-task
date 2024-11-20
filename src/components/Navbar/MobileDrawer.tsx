@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { cn } from "@/lib/utils"; // Utility to merge Tailwind classes, provided by Shadcn.
+import { cn } from "@/lib/utils";
 import CommonMainNavigation from "./CommonMainNavigation";
 
 export default function MobileMenu() {
+  // Declare stats 
   const [isOpen, setIsOpen] = useState(false);
 
+  // Toggle the drawer function
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
